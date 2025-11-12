@@ -1,0 +1,5 @@
+// config.js
+// Never commit your real key — we read it from the browser
+window.CONFIG = {
+  GEMINI_API_KEY: localStorage.getItem('GEMINI_API_KEY') || ''
+};
