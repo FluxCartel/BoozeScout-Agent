@@ -1,1 +1,1 @@
-window.CONFIG = { GEMINI_API_KEY: localStorage.getItem('GEMINI_API_KEY') || '' };
+export const API_KEY = (typeof window!=='undefined' && localStorage.getItem('GEMINI_API_KEY')) || ''; export default { API_KEY };
