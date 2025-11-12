@@ -1,29 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BoozeScout Agent</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-
-<link rel="stylesheet" href="/index.css">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BoozeScout Agent</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <script type="importmap">
-{
-  "imports": {
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.29.0",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "html5-qrcode": "https://aistudiocdn.com/html5-qrcode@^2.3.8"
+  {
+    "imports": {
+      "react": "https://aistudiocdn.com/react@19.2.0/",
+      "react-dom": "https://aistudiocdn.com/react-dom@19.2.0/"
+    }
   }
-}
-</script>
-  <script type="module" crossorigin src="/BoozeScout-Agent/assets/index-UJFpux2g.js"></script>
+  </script>
 </head>
-  <body class="bg-gray-900">
-    <div id="root"></div>
-    <script src="./config.js"></script>
+<body class="bg-gray-900 text-white">
+  <h1 class="text-center p-4">BoozeScout Agent</h1>
+  <div id="root" class="text-center p-4"></div>
+
+  <script>
+    const KEY_NAME = 'GEMINI_API_KEY';
+    const url = new URL(location.href);
+    const qKey = url.searchParams.get('gemini') || url.searchParams.get('key');
+
+    if (qKey) {
+      localStorage.setItem(KEY_NAME, qKey);
+      url.searchParams.delete('gemini'); url.searchParams.delete('key');
+      history.replaceState({}, document.title, url.pathname);
+    }
+
+    let key = localStorage.getItem(KEY_NAME);
+    if (!key) {
+      key = prompt('Enter your Google Gemini API key:');
+      if (key) localStorage.setItem(KEY_NAME, key);
+    }
+
+    document.getElementById('root').textContent =
+      key ? '✅ API key saved locally.' : '⚠️ No API key saved.';
+  </script>
 </body>
 </html>
