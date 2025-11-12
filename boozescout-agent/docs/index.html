@@ -26,6 +26,38 @@
   </script>
 
   <!-- main build script -->
+   <script>
+(function () {
+  function setKey(k) {
+    if (k && k.trim()) {
+      localStorage.setItem('GEMINI_API_KEY', k.trim());
+      window.CONFIG = { GEMINI_API_KEY: k.trim() };
+    }
+  }
+
+  const url = new URL(location.href);
+  const fromQuery =
+    url.searchParams.get('gemini') ||
+    url.searchParams.get('key') ||
+    url.searchParams.get('api_key');
+
+  if (fromQuery) {
+    setKey(fromQuery);
+    history.replaceState({}, document.title, url.origin + url.pathname);
+  }
+
+  const stored = localStorage.getItem('GEMINI_API_KEY');
+  if (stored && !window.CONFIG) {
+    window.CONFIG = { GEMINI_API_KEY: stored };
+  }
+
+  if (!window.CONFIG || !window.CONFIG.GEMINI_API_KEY) {
+    const k = prompt('Enter your Google Gemini API key (stored locally):');
+    setKey(k || '');
+  }
+})();
+</script>
+
   <script type="module" crossorigin src="./assets/index-UJFpux2g.js"></script>
 </head>
 
